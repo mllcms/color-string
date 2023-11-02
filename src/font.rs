@@ -95,6 +95,14 @@ fn font_is_work() {
     assert_eq!("\x1b[38;2;1;2;3m", format!("{}", Font::Color(1, 2, 3)));
 }
 
+/// 组合多种字体
+/// # Example
+/// ```
+/// use color_string::fonts;
+/// use color_string::Font::*;
+/// let fonts = fonts!(Red, Bold, Underline, BgColor(1, 2, 3));
+/// assert_eq!("\x1b[31;1;4;48;2;1;2;3m", fonts)
+/// ```
 #[macro_export]
 macro_rules! fonts {
     ($ ($font:expr),*) => {{
@@ -104,6 +112,16 @@ macro_rules! fonts {
     }};
 }
 
+/// 写入多种字体
+/// # Example
+/// ```
+/// use color_string::write_fonts;
+/// use color_string::Font::*;
+/// let mut fonts = String::new();
+/// write_fonts!(&mut fonts, Red, Bold, Underline, BgColor(1, 2, 3));
+/// println!("{} hello world! {}", fonts, Reset);
+/// assert_eq!("\x1b[31;1;4;48;2;1;2;3m", fonts)
+/// ```
 #[macro_export]
 macro_rules! write_fonts {
     ($s:expr, $($font:expr),*) => {{
@@ -113,15 +131,4 @@ macro_rules! write_fonts {
         $s.pop();
         $s.push('m');
     }};
-}
-
-#[test]
-fn fonts_is_work() {
-    let fonts = fonts!(
-        Font::Red,
-        Font::Bold,
-        Font::Underline,
-        Font::BgColor(1, 2, 3)
-    );
-    assert_eq!("\u{1b}[31;1;4;48;2;1;2;3m", fonts)
 }
