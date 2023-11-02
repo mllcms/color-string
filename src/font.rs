@@ -94,3 +94,34 @@ fn font_is_work() {
     assert_eq!("\x1b[30m", format!("{}", Font::Black));
     assert_eq!("\x1b[38;2;1;2;3m", format!("{}", Font::Color(1, 2, 3)));
 }
+
+#[macro_export]
+macro_rules! fonts {
+    ($ ($font:expr),*) => {{
+        let mut s = String::new();
+        $crate::write_fonts!(&mut s, $($font),*);
+        s
+    }};
+}
+
+#[macro_export]
+macro_rules! write_fonts {
+    ($s:expr, $($font:expr),*) => {{
+        use std::fmt::Write;
+        $s.push_str("\x1b[");
+        $(write!($s, "{};", $font.as_str()).unwrap();)*
+        $s.pop();
+        $s.push('m');
+    }};
+}
+
+#[test]
+fn fonts_is_work() {
+    let fonts = fonts!(
+        Font::Red,
+        Font::Bold,
+        Font::Underline,
+        Font::BgColor(1, 2, 3)
+    );
+    assert_eq!("\u{1b}[31;1;4;48;2;1;2;3m", fonts)
+}
