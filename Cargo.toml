@@ -2,6 +2,11 @@
 name = "color-string"
 version = "0.1.0"
 edition = "2021"
+readme = "README.md"
+authors = ["Mll <mllcms@163.com>"]
+keywords = ["color", "string", "color_string", "term", "terminal"]
+repository = "https://github.com/mllcms/color-string"
+description = "简单的彩色字符串工具"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
