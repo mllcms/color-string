@@ -101,7 +101,7 @@ fn font_is_work() {
 /// use color_string::fonts;
 /// use color_string::Font::*;
 /// let fonts = fonts!(Red, Bold, Underline, BgColor(1, 2, 3));
-/// assert_eq!("\x1b[31;1;4;48;2;1;2;3m", fonts)
+/// assert_eq!("\x1b[0;31;1;4;48;2;1;2;3m", fonts)
 /// ```
 #[macro_export]
 macro_rules! fonts {
@@ -120,13 +120,13 @@ macro_rules! fonts {
 /// let mut fonts = String::new();
 /// write_fonts!(&mut fonts, Red, Bold, Underline, BgColor(1, 2, 3));
 /// println!("{} hello world! {}", fonts, Reset);
-/// assert_eq!("\x1b[31;1;4;48;2;1;2;3m", fonts)
+/// assert_eq!("\x1b[0;31;1;4;48;2;1;2;3m", fonts)
 /// ```
 #[macro_export]
 macro_rules! write_fonts {
     ($s:expr, $($font:expr),*) => {{
         use std::fmt::Write;
-        $s.push_str("\x1b[");
+        $s.push_str("\x1b[0;");
         $(write!($s, "{};", $font.as_str()).unwrap();)*
         $s.pop();
         $s.push('m');
