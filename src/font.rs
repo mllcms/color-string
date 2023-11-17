@@ -26,7 +26,7 @@ pub enum Font {
     Blue,
     /// 紫色字体
     Purple,
-    /// 青色字体d
+    /// 青色字体
     Cyan,
     /// 灰色字体
     Grey,
@@ -112,7 +112,7 @@ macro_rules! fonts {
     }};
 }
 
-/// 写入多种字体
+/// write_fonts 写入多种字体
 /// # Example
 /// ```
 /// use color_string::wf;
