@@ -26,6 +26,37 @@ macro_rules! cs {
     }};
 }
 
+/// 输出彩色字体到标准输出
+/// # Examples
+/// ```
+/// use color_string::pcs;
+/// use color_string::Font::*;
+/// pcs!(Red => "hello world");
+/// pcs!(Red; "{} {}","hello","world");
+/// ```
+#[macro_export]
+macro_rules! pcs {
+    ($($arg:tt)*) => {{
+        let s = $crate::cs!($($arg)*);
+        println!("{s}")
+    }};
+}
+
+/// 输出彩色字体到标准错误
+/// ```
+/// use color_string::epcs;
+/// use color_string::Font::*;
+/// epcs!(Red => "hello world");
+/// epcs!(Red; "{} {}","hello","world");
+/// ```
+#[macro_export]
+macro_rules! epcs {
+    ($($arg:tt)*) => {{
+        let s = $crate::cs!($($arg)*);
+        eprintln!("{s}")
+    }};
+}
+
 /// write_color_string 写入彩色字符串
 /// # Examples
 /// ```
