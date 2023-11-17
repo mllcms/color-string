@@ -49,7 +49,7 @@ macro_rules! cs {
 macro_rules! wcs {
      ($buf:expr, $($font:expr),* ; $($arg:tt)*) => {{
         use std::fmt::Write;
-        $crate::write_fonts!($buf, $($font),*);
+        $crate::wf!($buf, $($font),*);
         write!($buf, $($arg)*).unwrap();
         $buf.push_str("\x1b[0m");
     }};
@@ -57,7 +57,7 @@ macro_rules! wcs {
     ($buf:expr, $($($font:expr),* => $($s:expr),* );* $(;)?) => {{
         use std::fmt::Write;
         $(
-            $crate::write_fonts!($buf, $($font),*);
+            $crate::wf!($buf, $($font),*);
             $(write!($buf, "{}", $s).unwrap();)*
         )*
         $buf.push_str("\x1b[0m");

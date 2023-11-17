@@ -107,7 +107,7 @@ fn font_is_work() {
 macro_rules! fonts {
     ($ ($font:expr),*) => {{
         let mut s = String::new();
-        $crate::write_fonts!(&mut s, $($font),*);
+        $crate::wf!(&mut s, $($font),*);
         s
     }};
 }
@@ -115,15 +115,15 @@ macro_rules! fonts {
 /// 写入多种字体
 /// # Example
 /// ```
-/// use color_string::write_fonts;
+/// use color_string::wf;
 /// use color_string::Font::*;
 /// let mut fonts = String::new();
-/// write_fonts!(&mut fonts, Red, Bold, Underline, BgColor(1, 2, 3));
+/// wf!(&mut fonts, Red, Bold, Underline, BgColor(1, 2, 3));
 /// println!("{} hello world! {}", fonts, Reset);
 /// assert_eq!("\x1b[0;31;1;4;48;2;1;2;3m", fonts)
 /// ```
 #[macro_export]
-macro_rules! write_fonts {
+macro_rules! wf {
     ($s:expr, $($font:expr),*) => {{
         use std::fmt::Write;
         $s.push_str("\x1b[0;");
