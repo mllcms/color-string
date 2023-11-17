@@ -149,6 +149,6 @@ colored_trait! {
     bg_yellow => Font::BgYellow,
     bg_blue => Font::BgBlue,
     bg_purple => Font::BgPurple,
-    bg_cyan => Font::Cyan,
+    bg_cyan => Font::BgCyan,
     bg_grey => Font::BgGrey
 }
