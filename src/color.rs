@@ -1,3 +1,6 @@
+use crate::font::Font;
+use std::fmt::Display;
+
 /// color_string 快速生成彩色字符串
 /// # Examples
 /// ```
@@ -59,4 +62,62 @@ macro_rules! wcs {
         )*
         $buf.push_str("\x1b[0m");
     }};
+}
+
+macro_rules! colored_trait {
+    ($($method:ident => $font:expr),*) => {
+        pub trait Colored:Display {
+            $(
+                fn $method(&self) -> String {
+                    $crate::cs!($font => self)
+                }
+            )*
+
+            fn color(&self, r:u8, g:u8, b:u8) -> String {
+                $crate::cs!($crate::color::Font::Color(r,g,b) => self)
+            }
+
+            fn bg_color(&self, r:u8, g:u8, b:u8) -> String {
+                $crate::cs!($crate::color::Font::BgColor(r,g,b) => self)
+            }
+
+            /// # Examples
+            /// ```rust,ignore
+            /// println!("{}","test".fonts("\x1b[1;31m"));
+            /// println!("{}","test".fonts(fonts!(Font::Bold,Font::Red)));
+            /// ```
+            #[allow(clippy::ptr_arg)]
+            fn fonts(&self, mut fonts:String) -> String {
+                use std::fmt::Write;
+                write!(&mut fonts, "{}\x1b[0m", self).unwrap();
+                fonts
+            }
+        }
+    };
+}
+
+/// 为所有实现 Display 的数据实现 Colored
+impl<T> Colored for T where T: Display + ?Sized {}
+colored_trait! {
+    bold => Font::Bold,
+    underline => Font::Underline,
+    italic => Font::Italic,
+    reverse => Font::Reverse,
+    delete => Font::Delete,
+    black => Font::Black,
+    red => Font::Red,
+    green => Font::Green,
+    yellow => Font::Yellow,
+    blue => Font::Blue,
+    purple => Font::Purple,
+    cyan => Font::Cyan,
+    grey => Font::Grey,
+    bg_black => Font::BgBlack,
+    bg_red => Font::BgRed,
+    bg_green => Font::BgGreen,
+    bg_yellow => Font::BgYellow,
+    bg_blue => Font::BgBlue,
+    bg_purple => Font::BgPurple,
+    bg_cyan => Font::Cyan,
+    bg_grey => Font::BgGrey
 }
