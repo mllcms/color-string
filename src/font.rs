@@ -127,7 +127,14 @@ macro_rules! write_fonts {
     ($s:expr, $($font:expr),*) => {{
         use std::fmt::Write;
         $s.push_str("\x1b[0;");
-        $(write!($s, "{};", $font.as_str()).unwrap();)*
+                $(
+            let s = $font.as_str();
+            if s.starts_with("\x1b[0") {
+                write!($s, "{};", &s[4..s.len() - 1]).unwrap();
+            }else {
+                write!($s, "{};", s).unwrap();
+            }
+        )*
         $s.pop();
         $s.push('m');
     }};
