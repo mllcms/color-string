@@ -101,7 +101,7 @@ fn font_is_work() {
 /// use color_string::fonts;
 /// use color_string::Font::*;
 /// let fonts = fonts!(Red, Bold, Underline, BgColor(1, 2, 3));
-/// assert_eq!("\x1b[0;31;1;4;48;2;1;2;3m", fonts)
+/// assert_eq!("\x1b[31;1;4;48;2;1;2;3m", fonts)
 /// ```
 #[macro_export]
 macro_rules! fonts {
@@ -112,7 +112,7 @@ macro_rules! fonts {
     }};
 }
 
-/// write_fonts 写入多种字体
+/// 写入多种字体
 /// # Example
 /// ```
 /// use color_string::wf;
@@ -120,17 +120,17 @@ macro_rules! fonts {
 /// let mut fonts = String::new();
 /// wf!(&mut fonts, Red, Bold, Underline, BgColor(1, 2, 3));
 /// println!("{} hello world! {}", fonts, Reset);
-/// assert_eq!("\x1b[0;31;1;4;48;2;1;2;3m", fonts)
+/// assert_eq!("\x1b[31;1;4;48;2;1;2;3m", fonts)
 /// ```
 #[macro_export]
 macro_rules! wf {
     ($s:expr, $($font:expr),*) => {{
         use std::fmt::Write;
-        $s.push_str("\x1b[0;");
+        $s.push_str("\x1b[");
                 $(
             let s = $font.as_str();
-            if s.starts_with("\x1b[0") {
-                write!($s, "{};", &s[4..s.len() - 1]).unwrap();
+            if s.starts_with("\x1b[") {
+                write!($s, "{};", &s[2..s.len() - 1]).unwrap();
             }else {
                 write!($s, "{};", s).unwrap();
             }

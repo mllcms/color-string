@@ -8,14 +8,14 @@ use std::fmt::Display;
 /// use color_string::Font::*;
 /// let s = cs!(Red, Bold; "{:X}", u32::MAX);
 /// println!("{s}");
-/// assert_eq!("\u{1b}[0;31;1mFFFFFFFF\u{1b}[0m", s);
+/// assert_eq!("\u{1b}[31;1mFFFFFFFF\u{1b}[0m", s);
 ///
 /// let s = cs!{
 ///     Red => 123456, "\n";
 ///     Green,Bold => "hello world";
 /// };
 /// println!("{s}");
-/// assert_eq!("\u{1b}[0;31m123456\n\u{1b}[0;32;1mhello world\u{1b}[0m", s);
+/// assert_eq!("\u{1b}[31m123456\n\u{1b}[32;1mhello world\u{1b}[0m", s);
 /// ```
 #[macro_export]
 macro_rules! cs {
@@ -65,7 +65,7 @@ macro_rules! epcs {
 /// let mut s = String::new();
 /// wcs!(&mut s, Red, Bold; "{:X}", u32::MAX);
 /// println!("{s}");
-/// assert_eq!("\u{1b}[0;31;1mFFFFFFFF\u{1b}[0m", s);
+/// assert_eq!("\u{1b}[31;1mFFFFFFFF\u{1b}[0m", s);
 ///
 /// let mut s = String::new();
 /// wcs!{
@@ -74,7 +74,7 @@ macro_rules! epcs {
 ///     Green,Bold => "hello world";
 /// }
 /// println!("{s}");
-/// assert_eq!("\u{1b}[0;31m123456\n\u{1b}[0;32;1mhello world\u{1b}[0m", s);
+/// assert_eq!("\u{1b}[31m123456\n\u{1b}[32;1mhello world\u{1b}[0m", s);
 /// ```
 #[macro_export]
 macro_rules! wcs {

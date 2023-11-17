@@ -25,7 +25,7 @@
 //! s7.push_str("World!");
 //! s7.reset();
 //!
-//! assert_eq!("\u{1b}[0;31;1mHello World!\u{1b}[0m", s7,);
+//! assert_eq!("\u{1b}[31;1mHello World!\u{1b}[0m", s7,);
 //! for s in [s1, s2, s3, s4, s5, s6] {
 //! assert_eq!(s7, s)
 //! }
