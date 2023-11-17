@@ -187,6 +187,9 @@ macro_rules! wf {
 
 pub trait FontTool {
     fn reset(&mut self) -> &Self;
+
+    fn no_reset(self) -> Self;
+
     fn none_font(&self) -> Self;
 }
 
@@ -195,6 +198,13 @@ impl FontTool for String {
         let reset = Font::Reset.to_string();
         if !self.ends_with(&reset) {
             self.push_str(&reset)
+        }
+        self
+    }
+
+    fn no_reset(mut self) -> Self {
+        if self.ends_with("\x1b[0m") {
+            self.truncate(self.len() - 4);
         }
         self
     }
@@ -217,7 +227,9 @@ impl FontTool for String {
 #[test]
 fn aaa() {
     use crate::cs;
+    use crate::Colored;
     let s = cs!(Font::Red => "hello");
     println!("{s}");
     println!("{}", s.none_font());
+    println!("{}456", "123".red().no_reset());
 }
