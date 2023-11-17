@@ -132,3 +132,40 @@ macro_rules! write_fonts {
         $s.push('m');
     }};
 }
+
+pub trait FontTool {
+    fn reset(&mut self) -> &Self;
+    fn none_font(&self) -> Self;
+}
+
+impl FontTool for String {
+    fn reset(&mut self) -> &Self {
+        let reset = Font::Reset.as_str().to_string();
+        if !self.ends_with(&reset) {
+            self.push_str(&reset)
+        }
+        self
+    }
+
+    fn none_font(&self) -> Self {
+        let mut s = String::with_capacity(self.len());
+        let mut flag = false;
+        for c in self.chars() {
+            match c {
+                '\x1b' => flag = true,
+                'm' if flag => flag = false,
+                _ if !flag => s.push(c),
+                _ => {}
+            }
+        }
+        s
+    }
+}
+
+#[test]
+fn aaa() {
+    use crate::cs;
+    let s = cs!(Font::Red => "hello");
+    println!("{s}");
+    println!("{}", s.none_font());
+}
