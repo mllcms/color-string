@@ -147,7 +147,7 @@ pub trait FontTool {
 
 impl FontTool for String {
     fn reset(&mut self) -> &Self {
-        let reset = Font::Reset.as_str().to_string();
+        let reset = Font::Reset.to_string();
         if !self.ends_with(&reset) {
             self.push_str(&reset)
         }
