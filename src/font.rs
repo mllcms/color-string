@@ -1,6 +1,7 @@
 use std::borrow::Cow;
 use std::fmt::{Display, Formatter};
 
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub enum Font {
     /// 重置样式
     Reset,

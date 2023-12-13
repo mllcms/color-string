@@ -3,7 +3,7 @@
 
 ```rust
 use color_string::Font::*;
-use color_string::{cs, fonts, wcs, wf, Colored, FontTool};
+use color_string::{cs, fonts, pcs, wcs, wf, Colored, FontTool};
 
 fn main() {
     let fonts = fonts!(Red, Bold);
@@ -18,17 +18,21 @@ fn main() {
     let s4 = cs!(fonts => "Hello World!");
     let s5 = cs!(Red,Bold; "{} {}", "Hello","World!");
     let s6 = cs!(Red,Bold => "Hello ","World!");
+    let s7 = format!("{}Hello World!{}", fonts, Reset);
 
-    let mut s7 = String::new();
-    wf!(&mut s7, Red, Bold);
-    s7.push_str("Hello ");
-    s7.push_str("World!");
-    s7.reset();
+    let mut ss = String::new();
+    wf!(&mut ss, Red, Bold);
+    ss.push_str("Hello ");
+    ss.push_str("World!");
+    ss.reset();
 
-    assert_eq!("\u{1b}[0;31;1mHello World!\u{1b}[0m", s7,);
-    for s in [s1, s2, s3, s4, s5, s6] {
-        assert_eq!(s7, s)
+    assert_eq!("\u{1b}[31;1mHello World!\u{1b}[0m", ss,);
+    for s in [s1, s2, s3, s4, s5, s6, s7] {
+        assert_eq!(ss, s)
     }
+
+    // Print server start
+    pcs!(Green => "➜ "; RBold => "Local: "; RCyan => "http://127.0.0.1:", 5173.bold());
 }
 
 ```
