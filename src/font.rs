@@ -211,18 +211,22 @@ impl FontTool for String {
     }
 
     fn none_font(&self) -> Self {
-        let mut s = String::with_capacity(self.len());
-        let mut flag = false;
-        for c in self.chars() {
-            match c {
-                '\x1b' => flag = true,
-                'm' if flag => flag = false,
-                _ if !flag => s.push(c),
-                _ => {}
-            }
-        }
-        s
+        none_font(self)
     }
+}
+
+pub fn none_font(s: &str) -> String {
+    let mut buf = String::new();
+    let mut flag = false;
+    for c in s.chars() {
+        match c {
+            '\x1b' => flag = true,
+            'm' if flag => flag = false,
+            _ if !flag => buf.push(c),
+            _ => {}
+        }
+    }
+    buf
 }
 
 #[test]
